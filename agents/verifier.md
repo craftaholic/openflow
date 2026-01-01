@@ -2,7 +2,6 @@
 name: verifier
 description: Review code quality, check against requirements, identify issues and improvements
 tools: Read, Write, Edit, Grep, Glob
-model: opus
 color: red
 ---
 

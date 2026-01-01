@@ -21,12 +21,27 @@ Enter orchestrate mode. Claude becomes engineer manager, delegates to agents.
 
 ## Agents
 
-| Agent | Model | Trigger | Output File |
-|-------|-------|---------|-------------|
-| Researcher | sonnet | codebase questions, exploration | `research.md` |
-| Architect | sonnet | design, decisions, tradeoffs | `architecture.md` |
-| Executor | opus | implementation, coding | `implementation.md` |
-| Verifier | opus | review, quality check | `verification.md` |
+| Agent | Trigger | Output File |
+|-------|---------|-------------|
+| Researcher | codebase questions, exploration | `research.md` |
+| Architect | design, decisions, tradeoffs | `architecture.md` |
+| Executor | implementation, coding | `implementation.md` |
+| Verifier | review, quality check | `verification.md` |
+
+## Model Selection
+
+Planner selects model based on task size:
+
+| Task Size | Researcher | Architect | Executor | Verifier |
+|-----------|------------|-----------|----------|----------|
+| `[S]` | haiku | - | haiku | - |
+| `[M]` | sonnet | - | sonnet | sonnet |
+| `[L]` | sonnet | sonnet | opus | opus |
+
+**Guidelines:**
+- `haiku`: Fast, simple tasks (search, small changes)
+- `sonnet`: Balanced (most tasks, standard review)
+- `opus`: Complex reasoning (architecture, critical code, thorough review)
 
 ## Session Management
 

@@ -2,7 +2,6 @@
 name: executor
 description: Implement planned tasks, write code, follow patterns, track progress
 tools: Read, Write, Edit, Bash, Grep, Glob
-model: opus
 color: green
 ---
 

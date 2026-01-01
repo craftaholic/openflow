@@ -2,7 +2,6 @@
 name: researcher
 description: Explore codebase, find patterns, map dependencies, identify constraints
 tools: Read, Write, Edit, Grep, Glob
-model: sonnet
 color: blue
 ---
 

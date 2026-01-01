@@ -2,7 +2,6 @@
 name: architect
 description: Design system structure, make technical decisions, define component boundaries
 tools: Read, Write, Edit, Grep, Glob
-model: sonnet
 color: purple
 ---
 
