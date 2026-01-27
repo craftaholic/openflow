@@ -1,28 +1,52 @@
 /**
  * Frontmatter generation utilities
- * TODO: Implement frontmatter formatting for generated files
  */
 
+import type { AgentConfig, SkillConfig, CommandConfig, PlatformConfig } from '../../../src/config/types'
+
 /**
- * Generate frontmatter for a file
- * TODO: Implement frontmatter generation based on metadata
+ * Generate YAML frontmatter for an agent
  */
-export function generateFrontmatter(metadata: Record<string, unknown>): string {
-  // TODO: Format metadata as YAML frontmatter
-  // TODO: Return formatted string with --- delimiters
-  throw new Error("Not implemented");
+export function generateAgentFrontmatter(agent: AgentConfig, platform: PlatformConfig): string {
+  const lines: string[] = ['---']
+  
+  lines.push(`name: ${agent.name}`)
+  lines.push(`description: ${agent.description}`)
+  
+  if (platform.features.supportsTools) {
+    lines.push(`tools: ${agent.tools.join(', ')}`)
+  }
+  
+  if (platform.features.supportsColors) {
+    lines.push(`color: ${agent.color}`)
+  }
+  
+  lines.push('---')
+  return lines.join('\n')
 }
 
 /**
- * Parse frontmatter from markdown content
- * TODO: Implement frontmatter parsing
+ * Generate YAML frontmatter for a skill
  */
-export function parseFrontmatter(content: string): {
-  frontmatter: Record<string, unknown>;
-  body: string;
-} {
-  // TODO: Extract frontmatter from markdown
-  // TODO: Parse YAML frontmatter
-  // TODO: Return parsed frontmatter and body
-  throw new Error("Not implemented");
+export function generateSkillFrontmatter(skill: SkillConfig, platform: PlatformConfig): string {
+  const lines: string[] = ['---']
+  
+  lines.push(`name: ${skill.name}`)
+  lines.push(`description: ${skill.description}`)
+  
+  lines.push('---')
+  return lines.join('\n')
+}
+
+/**
+ * Generate YAML frontmatter for a command
+ */
+export function generateCommandFrontmatter(command: CommandConfig, platform: PlatformConfig): string {
+  const lines: string[] = ['---']
+  
+  lines.push(`name: ${command.name}`)
+  lines.push(`description: ${command.description}`)
+  
+  lines.push('---')
+  return lines.join('\n')
 }

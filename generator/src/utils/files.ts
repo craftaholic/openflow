@@ -1,31 +1,29 @@
 /**
  * File operations utilities
- * TODO: Implement file system operations for generator
  */
+
+import { mkdir } from 'node:fs/promises'
+import { dirname } from 'node:path'
 
 /**
  * Read markdown file and return content
- * TODO: Implement markdown file reading
  */
 export async function readMarkdown(filePath: string): Promise<string> {
-  // TODO: Read file using Bun.file()
-  throw new Error("Not implemented");
+  const file = Bun.file(filePath)
+  return await file.text()
 }
 
 /**
  * Write content to file
- * TODO: Implement file writing with directory creation
  */
 export async function writeFile(filePath: string, content: string): Promise<void> {
-  // TODO: Write file using Bun.write()
-  throw new Error("Not implemented");
+  await ensureDir(dirname(filePath))
+  await Bun.write(filePath, content)
 }
 
 /**
  * Ensure directory exists, create if not
- * TODO: Implement directory creation
  */
 export async function ensureDir(dirPath: string): Promise<void> {
-  // TODO: Create directory recursively
-  throw new Error("Not implemented");
+  await mkdir(dirPath, { recursive: true })
 }
