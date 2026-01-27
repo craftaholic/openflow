@@ -12,16 +12,16 @@
 export interface AgentConfig {
   /** Unique identifier for the agent */
   name: string
-  
+
   /** Human-readable description of the agent's purpose */
   description: string
-  
+
   /** List of tools the agent can use (e.g., "Read", "Write", "Edit", "Grep", "Glob") */
-  tools: string[]
-  
+  tools?: string[]
+
   /** Color identifier for UI representation */
-  color: string
-  
+  color?: string
+
   /** Relative path to markdown content file from src/ directory */
   contentFile: string
 }
@@ -61,6 +61,12 @@ export interface CommandConfig {
  * Defines global instructions and settings
  */
 export interface GlobalConfig {
+  /** Unique identifier for the global config */
+  name?: string
+
+  /** Human-readable description of the global configuration */
+  description?: string
+
   /** Relative path to markdown content file from src/ directory */
   contentFile: string
 }
