@@ -1,0 +1,27 @@
+{
+  "platform": "claude-code",
+  "displayName": "Claude Code",
+  "folderStructure": {
+    "root": ".claude",
+    "agentPath": "agents",
+    "skillPath": "skills",
+    "commandPath": "commands",
+    "globalFile": "CONFIG.md"
+  },
+  "frontmatter": {
+    "agents": {
+      "required": ["name", "description", "tools", "color"]
+    },
+    "skills": {
+      "required": ["name", "description"]
+    },
+    "commands": {
+      "required": ["name", "description"]
+    }
+  },
+  "features": {
+    "supportsFrontmatter": true,
+    "supportsColors": true,
+    "supportsTools": true
+  }
+}
