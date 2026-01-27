@@ -2,6 +2,25 @@
 
 Claude Code configuration with agents, skills, and orchestrate mode for software/platform engineering.
 
+## Architecture
+
+This project uses a **source-to-distribution** architecture:
+
+```
+src/                    # Source files (TypeScript configs + markdown)
+├── config/            # Platform-specific TypeScript configs
+└── content/           # Agents, skills, commands (markdown)
+
+generator/             # Build system
+└── generate.ts        # Compiles src/ → dist/
+
+dist/                  # Generated output (git-ignored)
+├── opencode/          # OpenCode platform files
+└── claude-code/       # Claude Code platform files
+```
+
+**Installation generates platform-specific files** from shared source. See [generator/README.md](generator/README.md) for details.
+
 ## Structure
 
 ```
@@ -29,7 +48,9 @@ Claude Code configuration with agents, skills, and orchestrate mode for software
 ```bash
 git clone https://github.com/craftaholic/claude-orchestrator.git
 cd claude-orchestrator
-make install
+npm install    # Install dependencies
+npm run build  # Generate platform-specific files
+make install   # Install to ~/.claude or ~/.opencode
 ```
 
 | Command | Action |
@@ -39,6 +60,8 @@ make install
 | `make install-merge` | Add missing files only |
 | `make uninstall` | Remove repo files, keep user files |
 | `make backup` | Backup `~/.claude` |
+
+**Note:** `npm run build` generates platform-specific files. Run it after pulling updates.
 
 ## Orchestrate Mode
 
@@ -94,3 +117,7 @@ Models chosen by task complexity:
 | `python` | Python backend patterns |
 | `terraform` | IaC for AWS |
 | `typescript` | TS/Node.js patterns |
+
+## For Contributors
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for how to add agents, skills, commands, or platform support.
