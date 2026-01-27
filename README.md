@@ -45,23 +45,52 @@ dist/                  # Generated output (git-ignored)
 
 ## Installation
 
+### Quick Install (Recommended)
+
+```bash
+curl -L https://openflow.dev/install | bash
+```
+
+This single command will:
+- Detect your installed AI editors (OpenCode, Claude Code)
+- Generate platform-specific files
+- Install all skills and configurations
+
+### Manual Installation
+
+If you prefer to run steps manually or contribute to the project:
+
 ```bash
 git clone https://github.com/craftaholic/claude-orchestrator.git
 cd claude-orchestrator
 npm install    # Install dependencies
 npm run build  # Generate platform-specific files
-make install   # Install to ~/.claude or ~/.opencode
+./install.sh   # Install to detected platforms
 ```
+
+### Available Commands
 
 | Command | Action |
 |---------|--------|
-| `make install` | Overwrite repo files, keep user files |
-| `make install-fresh` | Backup existing + clean install |
-| `make install-merge` | Add missing files only |
-| `make uninstall` | Remove repo files, keep user files |
+| `./install.sh` | Auto-detect and install |
+| `./install.sh --platform opencode` | Install to OpenCode only |
+| `./install.sh --platform claude-code` | Install to Claude Code only |
+| `./install.sh --dry-run` | Preview installation |
+| `make generate` | Generate configuration files only |
 | `make backup` | Backup `~/.claude` |
+| `make uninstall` | Remove repo files, keep user files |
 
-**Note:** `npm run build` generates platform-specific files. Run it after pulling updates.
+### Advanced Options
+
+**install-fresh** - Backup existing configuration and perform a clean install:
+
+```bash
+./install.sh
+```
+
+The installer automatically backs up existing configurations before installing.
+
+**Note:** `npm run build` generates platform-specific files. Run it after pulling updates if installing manually.
 
 ## Orchestrate Mode
 

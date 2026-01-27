@@ -1,6 +1,8 @@
-#!/bin/bash
-set -e
+#!/usr/bin/env bash
+set -euo pipefail
 
+# Wrapper for curl | bash support - ensures entire script is downloaded first
+{
 # Colors for output
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -12,6 +14,34 @@ NO_GENERATE=false
 DRY_RUN=false
 PLATFORM=""
 FORCE=false
+REPO_URL="${OPENFLOW_REPO_URL:-https://github.com/craftaholic/claude-orchestrator.git}"
+INSTALL_DIR=""
+
+# Detect if running via curl | bash (non-interactive pipe mode)
+is_piped() {
+    [ ! -t 0 ]
+}
+
+# Clone repo if running via curl | bash
+setup_repo() {
+    local target_dir="$1"
+    local repo_url="$2"
+
+    if [ "$DRY_RUN" = true ]; then
+        echo "[DRY RUN] Would clone: $repo_url -> $target_dir"
+        return 0
+    fi
+
+    if [ -d "$target_dir/.git" ]; then
+        echo "Updating existing repository..."
+        cd "$target_dir"
+        git pull origin main --quiet 2>/dev/null || git pull --quiet || true
+    else
+        echo "Cloning repository..."
+        git clone "$repo_url" "$target_dir"
+        cd "$target_dir"
+    fi
+}
 
 # Usage function
 usage() {
@@ -22,16 +52,23 @@ Install OpenFlow skills to OpenCode and/or Claude Code.
 
 Options:
     --help                  Show this help message
-    --dry-run              Show what would be done without doing it
-    --no-generate          Skip running 'make generate' before installation
-    --platform PLATFORM    Specify platform: opencode, claude-code, or both
-    --force                Install even if platform not detected
+    --dry-run               Show what would be done without doing it
+    --no-generate           Skip running 'make generate' before installation
+    --platform PLATFORM     Specify platform: opencode, claude-code, or both
+    --force                 Install even if platform not detected
+
+Environment Variables:
+    OPENFLOW_REPO_URL       Git repository URL (for curl | bash install)
+    OPENFLOW_INSTALL_DIR    Installation directory (default: current directory)
 
 Examples:
     $(basename "$0")                           # Auto-detect and install
     $(basename "$0") --platform opencode       # Install to OpenCode only
     $(basename "$0") --no-generate             # Skip generation step
     $(basename "$0") --dry-run                 # Preview installation
+
+Remote Install:
+    curl -sSL https://raw.githubusercontent.com/craftaholic/claude-orchestrator/main/install.sh | bash
 
 EOF
     exit 0
@@ -66,6 +103,31 @@ while [[ $# -gt 0 ]]; do
             ;;
     esac
 done
+
+# Handle curl | bash mode - clone repo if running via pipe and not in project directory
+if is_piped; then
+    # Determine install directory
+    INSTALL_DIR="${OPENFLOW_INSTALL_DIR:-${HOME}/.openflow-install}"
+
+    # Check if we're in a valid repo (generator/ and dist/ exist)
+    if [ ! -d "generator" ] || [ ! -d "dist" ]; then
+        echo -e "${GREEN}Running in remote install mode...${NC}"
+
+        # Setup repository
+        setup_repo "$INSTALL_DIR" "$REPO_URL"
+
+        # Run install from the cloned repo
+        cd "$INSTALL_DIR"
+
+        # Re-parse arguments in the cloned repo context
+        export NO_GENERATE
+        export DRY_RUN
+        export PLATFORM
+        export FORCE
+
+        exec ./install.sh "$@"
+    fi
+fi
 
 # Validate platform argument
 if [ -n "$PLATFORM" ] && [ "$PLATFORM" != "opencode" ] && [ "$PLATFORM" != "claude-code" ] && [ "$PLATFORM" != "both" ]; then
@@ -221,3 +283,5 @@ else
         echo "✓ Claude Code skills installed"
     fi
 fi
+
+} # end of curl | bash wrapper

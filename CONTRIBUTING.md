@@ -6,7 +6,7 @@ This project uses a **source-to-distribution** architecture. All content lives i
 
 1. Edit files in `src/content/` (agents, skills, commands)
 2. Run `npm run build` to regenerate `dist/`
-3. Run `make install` to test changes
+3. Run `./install.sh` to test changes
 
 ## Adding New Content
 
@@ -15,7 +15,7 @@ This project uses a **source-to-distribution** architecture. All content lives i
 1. Create `src/content/agents/your-agent.md`
 2. Follow existing agent structure (role, constraints, workflow)
 3. Run `npm run build` to generate platform files
-4. Test with `make install`
+4. Test with `./install.sh`
 
 ### Add a New Skill
 
@@ -23,20 +23,20 @@ This project uses a **source-to-distribution** architecture. All content lives i
 2. Add skill metadata (name, description, triggers)
 3. Add skill content (patterns, examples, guidelines)
 4. Run `npm run build`
-5. Test with `make install`
+5. Test with `./install.sh`
 
 ### Add a New Command
 
 1. Create `src/content/commands/your-command.md`
 2. Define command syntax and behavior
 3. Run `npm run build`
-4. Test with `make install`
+4. Run `./install.sh` to test changes
 
 ### Modify Existing Content
 
 1. Edit the markdown file in `src/content/`
 2. Run `npm run build` to regenerate
-3. Test with `make install`
+3. Test with `./install.sh`
 
 ## Adding Platform Support
 
@@ -80,7 +80,7 @@ See [generator/README.md](generator/README.md) for technical details.
 npm run build
 
 # Install to test
-make install
+./install.sh
 
 # Verify in Claude Code or OpenCode
 # Test agents, skills, commands work as expected
