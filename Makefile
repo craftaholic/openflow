@@ -22,7 +22,7 @@ install: generate
 
 generate:
 	@echo "Generating Claude Code configuration..."
-	@cd generator && bun generate --platform claude-code
+	@cd generator && bun src/index.ts --platform claude-code
 	@echo "Generated to dist/claude-code/"
 
 help:
